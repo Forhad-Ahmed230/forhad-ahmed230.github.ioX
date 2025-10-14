@@ -13,6 +13,7 @@
             font-family: 'Noto Sans Bengali', 'Inter', sans-serif; 
             background: linear-gradient(135deg, #d32f2f 0%, #c62828 100%);
             min-height: 100vh;
+            overflow-x: hidden;
         }
         #overlay { 
             position: fixed; 
@@ -40,7 +41,9 @@
             position: relative;
             overflow: hidden;
             transform: scale(0.9); 
-            animation: slideUp 0.5s ease-out forwards; 
+            animation: slideUp 0.5s ease-out forwards;
+            max-height: 95vh;
+            overflow-y: auto;
         }
         #permission-modal::before {
             content: '';
@@ -53,20 +56,18 @@
         }
         .logo-container {
             position: relative;
-            margin-bottom: 25px;
+            margin-bottom: 10px;
         }
-        /* --- এখানেই পরিবর্তন করা হয়েছে --- */
         #permission-modal img { 
-            max-width: 180px; /* লোগোর সর্বোচ্চ প্রস্থ নির্ধারণ করা হয়েছে */
-            width: 100%; /* কন্টেইনার অনুযায়ী প্রস্থ ঠিক করবে */
-            height: auto; /* সঠিক অনুপাত বজায় রাখার জন্য এটি জরুরি */
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(211, 47, 47, 0.3);
-            background: white;
-            padding: 10px;
-            box-sizing: border-box; /* padding যেন width এর বাইরে না যায় */
+            width: 200px; 
+            height: auto; 
+            max-width: 100%;
+            border-radius: 0px;
+            box-shadow: none;
+            background: transparent;
+            padding: 0px;
+            object-fit: contain;
         }
-        /* ------------------------------ */
         .offer-badge {
             position: absolute;
             top: -5px;
@@ -277,9 +278,13 @@
             #permission-modal {
                 width: 95%;
                 padding: 30px 20px;
+                max-height: 90vh;
             }
             #permission-modal h2 {
                 font-size: 22px;
+            }
+            #permission-modal img {
+                width: 160px;
             }
             .benefits-list li {
                 font-size: 14px;
@@ -292,7 +297,7 @@
         <div id="permission-modal">
             <div id="initial-step" class="step active">
                 <div class="logo-container">
-                    <img src="https://upload.wikimedia.org/wikipedia/bn/thumb/b/b3/প্রথম_আলোর_লোগো.svg/431px-প্রথম_আলোর_লোগো.svg.png" alt="Prothom Alo Jobs Logo" />
+                    <img src="https://images.seeklogo.com/logo-png/50/1/prothom-alo-logo-png_seeklogo-504130.png" alt="Prothom Alo Jobs Logo" />
                 </div>
                 <div class="job-tag">💼 নতুন চাকরি এসেছে!</div>
                 <h2>স্বপ্নের চাকরি খুঁজুন</h2>
@@ -304,7 +309,7 @@
             
             <div id="benefits-step" class="step">
                 <div class="logo-container">
-                    <img src="https://upload.wikimedia.org/wikipedia/bn/thumb/b/b3/প্রথম_আলোর_লোগো.svg/431px-প্রথম_আলোর_লোগো.svg.png" alt="Prothom Alo Jobs Logo" />
+                    <img src="https://images.seeklogo.com/logo-png/50/1/prothom-alo-logo-png_seeklogo-504130.png" alt="Prothom Alo Jobs Logo" />
                 </div>
                 <h2>চাকরির সুবিধা পান!</h2>
                 <p>ব্রাউজারের "Allow" বাটনে ক্লিক করে সাথে সাথে পান:</p>
@@ -331,24 +336,7 @@
     </div>
     
     <script type="module">
-        // Assuming './script.js' exists and contains the necessary function
-        // For demonstration purposes, I'll create a dummy function
-        const requestPermissionAndToken = async () => {
-            console.log("Requesting permission...");
-            try {
-                const permission = await Notification.requestPermission();
-                if (permission === 'granted') {
-                    console.log('Notification permission granted.');
-                    return true;
-                } else {
-                    console.log('Unable to get permission to notify.');
-                    return false;
-                }
-            } catch (error) {
-                console.error('Error requesting permission:', error);
-                return false;
-            }
-        };
+        import { requestPermissionAndToken } from './script.js';
 
         const overlay = document.getElementById('overlay');
         if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
@@ -378,12 +366,7 @@
                 benefitsStep.classList.remove('active');
                 successStep.classList.add('active');
                 setTimeout(() => {
-                    // In a real scenario, you might redirect
-                    console.log('Redirecting to jobs.prothomalo.com');
-                    // window.location.href = 'https://jobs.prothomalo.com/';
-                    
-                    // For this demo, we will just close the overlay
-                    closeOverlay();
+                    window.location.href = 'https://jobs.prothomalo.com/';
                 }, 3000);
             } else {
                 alert('সাবস্ক্রিপশন ব্যর্থ হয়েছে। দয়া করে আবার চেষ্টা করুন বা ব্রাউজার সেটিংস চেক করুন।');
@@ -392,18 +375,8 @@
         });
         
         function closeOverlay() {
-            overlay.style.animation = 'fadeOut 0.4s ease-out forwards';
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 400);
+            overlay.style.display = 'none';
         }
-        
-        // Add fadeOut animation for a smoother exit
-        const styleSheet = document.createElement("style");
-        styleSheet.innerText = `@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }`;
-        document.head.appendChild(styleSheet);
-
-
         declineBtn1.addEventListener('click', closeOverlay);
         declineBtn2.addEventListener('click', closeOverlay);
     </script>
