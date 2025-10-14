@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8" />
+    <title>Daraz 10.10 Mega Sale!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f57224">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, .7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+            backdrop-filter: blur(4px);
+            animation: fadeIn .3s ease-out;
+        }
+
+        #permission-modal {
+            background-color: #fff;
+            width: 90%;
+            max-width: 420px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+            text-align: center;
+            padding: 30px;
+            box-sizing: border-box;
+            border-top: 4px solid;
+            border-image: linear-gradient(to right, #f57224, #ff6a00) 1;
+            transform: scale(.95);
+            animation: fadeInScale .4s ease-out forwards;
+        }
+
+        #permission-modal img {
+            width: 100px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
+        #permission-modal h2 {
+            font-size: 24px;
+            color: #0d0d3d; /* Daraz Dark Blue */
+            margin: 0 0 10px;
+            font-weight: 700;
+        }
+
+        #permission-modal p {
+            font-size: 16px;
+            color: #606770;
+            line-height: 1.6;
+            margin: 0 0 25px;
+        }
+
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .benefits-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #4b4f56;
+            opacity: 0;
+            animation: fadeIn .5s ease-out forwards;
+        }
+
+        .benefits-list li:nth-child(1) { animation-delay: .2s; }
+        .benefits-list li:nth-child(2) { animation-delay: .4s; }
+        .benefits-list li:nth-child(3) { animation-delay: .6s; }
+        
+        .benefits-list .icon {
+            font-size: 22px;
+            margin-right: 12px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .2s ease;
+            margin-bottom: 10px;
+        }
+
+        .btn-primary {
+            background-color: #f57224; /* Daraz Orange */
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #d65c0f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(245, 114, 36, .4);
+        }
+
+        .btn-primary:disabled {
+            background-color: #fcae7c;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .decline-link {
+            font-size: 14px;
+            color: #606770;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .decline-link:hover { text-decoration: underline; }
+        
+        .step { display: none; }
+        .step.active { display: block; }
+
+        .success-animation { margin: 40px auto; }
+        
+        .checkmark {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 2;
+            stroke: #4bb71b;
+            stroke-miterlimit: 10;
+            margin: 10% auto;
+            box-shadow: inset 0 0 0 #4bb71b;
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+        }
+        .checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: #4bb71b;
+            fill: #fff;
+            animation: stroke .6s cubic-bezier(.65, 0, .45, 1) forwards;
+        }
+        .checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke .3s cubic-bezier(.65, 0, .45, 1) .8s forwards;
+        }
+
+        @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+        @keyframes scale { 0%, 100% { transform: none; } 50% { transform: scale3d(1.1, 1.1, 1); } }
+        @keyframes fill { 100% { box-shadow: inset 0 0 0 50px #f57224; } } /* Success fill with Daraz Orange */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInScale { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <div id="permission-modal">
+            
+            <div id="initial-step" class="step active">
+                <img src="daraz-logo.png" alt="Daraz Logo">
+                <h2>১০.১০ মেগা সেল শুরু!</h2>
+                <p>দারাজের সেরা অফার আর এক্সক্লুসিভ ভাউচার সবার আগে পেতে চান?</p>
+                <button id="unlockBtn" class="btn btn-primary">হ্যাঁ, অফারগুলো দিন!</button>
+                <a id="declineBtn1" class="decline-link">না, ধন্যবাদ</a>
+            </div>
+            
+            <div id="benefits-step" class="step">
+                <h2>অফার মিস করবেন না!</h2>
+                <p>নোটিফিকেশন অ্যালাউ করে সবার আগে পেয়ে যান:</p>
+                <ul class="benefits-list">
+                    <li><span class="icon">🎁</span> মেগা ডিল ও ভাউচার</li>
+                    <li><span class="icon">⚡</span> ফ্ল্যাশ সেলের আগাম খবর</li>
+                    <li><span class="icon">🏷️</span> আপনার জন্য专属 অফার</li>
+                </ul>
+                <button id="allowBtn" class="btn btn-primary">নোটিফিকেশন চালু করুন</button>
+                <a id="declineBtn2" class="decline-link">পরে ভাবছি</a>
+            </div>
+
+            <div id="success-step" class="step">
+                <div class="success-animation">
+                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                    </svg>
+                </div>
+                <h2>সাবস্ক্রিপশন সফল হয়েছে!</h2>
+                <p>ধন্যবাদ! আপনাকে দারাজ ওয়েবসাইটে নিয়ে যাওয়া হচ্ছে...</p>
+            </div>
+
+        </div>
+    </div>
+    
+    <script type="module">
+        import { requestPermissionAndToken } from './script.js';
+
+        const overlay = document.getElementById('overlay');
+        
+        // Hide modal if permission is already granted
+        if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+            overlay.style.display = 'none';
+        }
+
+        const unlockBtn = document.getElementById('unlockBtn');
+        const allowBtn = document.getElementById('allowBtn');
+        const declineBtn1 = document.getElementById('declineBtn1');
+        const declineBtn2 = document.getElementById('declineBtn2');
+
+        const initialStep = document.getElementById('initial-step');
+        const benefitsStep = document.getElementById('benefits-step');
+        const successStep = document.getElementById('success-step');
+
+        function closeOverlay() {
+            overlay.style.display = 'none';
+        }
+
+        unlockBtn.addEventListener('click', () => {
+            initialStep.classList.remove('active');
+            benefitsStep.classList.add('active');
+        });
+
+        allowBtn.addEventListener('click', async () => {
+            allowBtn.disabled = true;
+            allowBtn.innerText = 'অনুমতির জন্য অপেক্ষা করুন...';
+            
+            const token = await requestPermissionAndToken();
+            
+            if (token) {
+                benefitsStep.classList.remove('active');
+                successStep.classList.add('active');
+                setTimeout(() => {
+                    // Redirect to Daraz Bangladesh website
+                    window.location.href = 'https://www.daraz.com.bd/'; 
+                }, 3000);
+            } else {
+                alert('সাবস্ক্রিপশন ব্যর্থ হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন বা আপনার ব্রাউজার সেটিংস চেক করুন।');
+                closeOverlay();
+            }
+        });
+
+        declineBtn1.addEventListener('click', closeOverlay);
+        declineBtn2.addEventListener('click', closeOverlay);
+    </script>
+</body>
+</html>
