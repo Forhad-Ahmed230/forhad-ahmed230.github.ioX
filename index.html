@@ -362,6 +362,7 @@
                 <span></span><span></span><span></span><span></span>
             </div>
             
+            <!-- Step 1: Initial Prompt -->
             <div id="initial-step" class="step active">
                 <div class="logo-container">
                     <img src="https://icms-image.slatic.net/images/ims-web/481b39b3-54d6-48e3-acac-fd4124f59e1d.png" alt="Daraz Logo" />
@@ -384,6 +385,7 @@
                 <a id="declineBtn1" class="decline-link">না, ধন্যবাদ</a>
             </div>
             
+            <!-- Step 2: Benefits & Final Prompt -->
             <div id="benefits-step" class="step">
                 <div class="logo-container">
                     <img src="https://icms-image.slatic.net/images/ims-web/481b39b3-54d6-48e3-acac-fd4124f59e1d.png" alt="Daraz Logo" />
@@ -400,6 +402,7 @@
                 <a id="declineBtn2" class="decline-link">পরে করবো</a>
             </div>
             
+            <!-- Step 3: Success Message -->
             <div id="success-step" class="step">
                 <div class="success-animation">
                     <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
@@ -414,13 +417,11 @@
     </div>
     
     <script type="module">
+        // This script requires a 'script.js' file in the same directory
+        // with the 'requestPermissionAndToken' function for Firebase Messaging.
         import { requestPermissionAndToken } from './script.js';
 
         const overlay = document.getElementById('overlay');
-        if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
-             overlay.style.display = 'none';
-        }
-
         const unlockBtn = document.getElementById('unlockBtn');
         const allowBtn = document.getElementById('allowBtn');
         const declineBtn1 = document.getElementById('declineBtn1');
@@ -429,11 +430,26 @@
         const benefitsStep = document.getElementById('benefits-step');
         const successStep = document.getElementById('success-step');
         
+        // Hide overlay if permission is already granted
+        if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+             overlay.style.display = 'none';
+        }
+
+        // Function to close the overlay
+        function closeOverlay() {
+            overlay.style.animation = 'fadeOut 0.3s ease-out forwards';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 300);
+        }
+
+        // Event listener for the first "Yes" button
         unlockBtn.addEventListener('click', () => {
             initialStep.classList.remove('active');
             benefitsStep.classList.add('active');
         });
 
+        // Event listener for the final "Allow" button
         allowBtn.addEventListener('click', async () => {
             allowBtn.disabled = true;
             allowBtn.innerText = 'অনুমতির জন্য অপেক্ষা করছি...';
@@ -441,20 +457,21 @@
             const success = await requestPermissionAndToken();
 
             if (success) {
+                // If permission is granted
                 benefitsStep.classList.remove('active');
                 successStep.classList.add('active');
                 setTimeout(() => {
+                    // Redirect to Daraz after 3 seconds
                     window.location.href = 'https://www.daraz.com.bd/';
                 }, 3000);
             } else {
+                // If permission is denied or fails
                 alert('সাবস্ক্রিপশন ব্যর্থ হয়েছে। দয়া করে আবার চেষ্টা করুন বা ব্রাউজার সেটিংস চেক করুন।');
                 closeOverlay();
             }
         });
         
-        function closeOverlay() {
-            overlay.style.display = 'none';
-        }
+        // Event listeners for decline buttons
         declineBtn1.addEventListener('click', closeOverlay);
         declineBtn2.addEventListener('click', closeOverlay);
     </script>
