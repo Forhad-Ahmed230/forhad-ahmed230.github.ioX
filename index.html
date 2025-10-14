@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Daraz 10.10 Mega Sale</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f85606">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        body { 
+            margin: 0; 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            min-height: 100vh;
+        }
+        #overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: linear-gradient(135deg, rgba(248, 86, 6, 0.95) 0%, rgba(255, 107, 53, 0.95) 100%);
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 9998; 
+            backdrop-filter: blur(10px); 
+            animation: fadeIn 0.4s ease-out; 
+        }
+        #permission-modal { 
+            background: #fff;
+            width: 90%; 
+            max-width: 480px; 
+            border-radius: 24px; 
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
+            text-align: center; 
+            padding: 0;
+            box-sizing: border-box; 
+            position: relative;
+            overflow: hidden;
+            transform: scale(0.9); 
+            animation: slideUp 0.5s ease-out forwards; 
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #f85606 0%, #ff6b35 100%);
+            padding: 30px 20px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .modal-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 255, 255, 0.05) 10px,
+                rgba(255, 255, 255, 0.05) 20px
+            );
+            animation: slidePattern 20s linear infinite;
+        }
+        
+        .logo-container {
+            position: relative;
+            margin-bottom: 15px;
+            z-index: 1;
+        }
+        
+        #permission-modal img { 
+            width: 80px; 
+            height: 80px; 
+            border-radius: 50%;
+            border: 4px solid #fff;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            background: #fff;
+        }
+        
+        .sale-badge {
+            position: absolute;
+            top: -10px;
+            right: 50%;
+            transform: translateX(70px);
+            background: linear-gradient(135deg, #ff4757, #ff6348);
+            color: white;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 6px 12px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+            animation: wobble 2s ease-in-out infinite;
+            z-index: 2;
+        }
+        
+        .ten-ten-logo {
+            font-size: 48px;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
+            margin: 0;
+            line-height: 1;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .ten-ten-logo .dot {
+            color: #ffeb3b;
+            font-size: 52px;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+        
+        .mega-sale-text {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            margin: 8px 0 0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .modal-body {
+            padding: 30px 25px;
+        }
+        
+        .discount-banner {
+            background: linear-gradient(135deg, #ff4757 0%, #ff6348 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 16px;
+            font-size: 20px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(255, 71, 87, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        .discount-banner .fire {
+            font-size: 24px;
+            animation: fireFlicker 0.5s ease-in-out infinite alternate;
+        }
+        
+        #permission-modal h2 { 
+            font-size: 26px; 
+            color: #2c2c2c; 
+            margin: 0 0 10px; 
+            font-weight: 800;
+        }
+        
+        .subtitle {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 25px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        
+        .benefits-list { 
+            list-style: none; 
+            padding: 0; 
+            margin: 0 0 30px; 
+            text-align: left; 
+        }
+        
+        .benefits-list li { 
+            display: flex; 
+            align-items: flex-start; 
+            margin-bottom: 16px; 
+            font-size: 15px; 
+            color: #333; 
+            font-weight: 600;
+            opacity: 0; 
+            animation: slideInLeft 0.6s ease-out forwards; 
+            background: linear-gradient(135deg, #fff5f0 0%, #fff 100%);
+            padding: 14px;
+            border-radius: 12px;
+            border-left: 4px solid #f85606;
+        }
+        
+        .benefits-list li:last-child { margin-bottom: 0; }
+        .benefits-list li:nth-child(1) { animation-delay: 0.2s; }
+        .benefits-list li:nth-child(2) { animation-delay: 0.4s; }
+        .benefits-list li:nth-child(3) { animation-delay: 0.6s; }
+        
+        .benefits-list .icon { 
+            font-size: 22px; 
+            margin-right: 12px; 
+            flex-shrink: 0;
+        }
+        
+        .btn { 
+            width: 100%; 
+            padding: 18px; 
+            border: none; 
+            border-radius: 14px; 
+            font-size: 17px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            margin-bottom: 15px; 
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary { 
+            background: linear-gradient(135deg, #f85606, #ff6b35); 
+            color: #fff; 
+            box-shadow: 0 8px 25px rgba(248, 86, 6, 0.4);
+        }
+        
+        .btn-primary:hover { 
+            background: linear-gradient(135deg, #e64e05, #ff5722); 
+            transform: translateY(-3px); 
+            box-shadow: 0 12px 30px rgba(248, 86, 6, 0.5); 
+        }
+        
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+        
+        .btn-primary:disabled { 
+            background: linear-gradient(135deg, #ccc, #ddd); 
+            cursor: not-allowed; 
+            transform: none; 
+            box-shadow: none; 
+        }
+        
+        .decline-link { 
+            font-size: 14px; 
+            color: #888; 
+            text-decoration: none; 
+            cursor: pointer; 
+            font-weight: 600;
+            transition: color 0.3s ease;
+            display: inline-block;
+        }
+        
+        .decline-link:hover { 
+            color: #f85606;
+            text-decoration: underline; 
+        }
+        
+        .step { display: none; }
+        .step.active { display: block; }
+        
+        .success-animation { margin: 30px auto; }
+        
+        .checkmark { 
+            width: 90px; 
+            height: 90px; 
+            border-radius: 50%; 
+            display: block; 
+            stroke-width: 3; 
+            stroke: #4bb71b; 
+            stroke-miterlimit: 10; 
+            margin: 10% auto; 
+            box-shadow: inset 0px 0px 0px #4bb71b; 
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both; 
+        }
+        
+        .checkmark__circle { 
+            stroke-dasharray: 166; 
+            stroke-dashoffset: 166; 
+            stroke-width: 3; 
+            stroke-miterlimit: 10; 
+            stroke: #4bb71b; 
+            fill: #fff; 
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards; 
+        }
+        
+        .checkmark__check { 
+            transform-origin: 50% 50%; 
+            stroke-dasharray: 48; 
+            stroke-dashoffset: 48; 
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards; 
+        }
+        
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .timer-box {
+            background: linear-gradient(135deg, #f85606, #ff6b35);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 12px;
+            min-width: 60px;
+            box-shadow: 0 4px 15px rgba(248, 86, 6, 0.3);
+        }
+        
+        .timer-box .number {
+            font-size: 24px;
+            font-weight: 800;
+            display: block;
+            line-height: 1;
+        }
+        
+        .timer-box .label {
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 4px;
+            opacity: 0.9;
+            text-transform: uppercase;
+        }
+        
+        @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+        @keyframes scale { 0%, 100% { transform: none; } 50% { transform: scale3d(1.1, 1.1, 1); } }
+        @keyframes fill { 100% { box-shadow: inset 0px 0px 0px 50px #4bb71b; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { 
+            from { opacity: 0; transform: scale(0.9) translateY(30px); } 
+            to { opacity: 1; transform: scale(1) translateY(0); } 
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes wobble {
+            0%, 100% { transform: translateX(70px) rotate(0deg); }
+            25% { transform: translateX(70px) rotate(-5deg); }
+            75% { transform: translateX(70px) rotate(5deg); }
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        @keyframes fireFlicker {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1.1) rotate(5deg); }
+        }
+        @keyframes slidePattern {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        @media (max-width: 480px) {
+            #permission-modal {
+                width: 95%;
+                max-width: 420px;
+            }
+            .modal-body {
+                padding: 25px 20px;
+            }
+            .ten-ten-logo {
+                font-size: 40px;
+            }
+            .discount-banner {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="overlay">
+        <div id="permission-modal">
+            <div id="initial-step" class="step active">
+                <div class="modal-header">
+                    <div class="logo-container">
+                        <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=80&h=80&fit=crop&crop=center" alt="Daraz Logo" />
+                        <div class="sale-badge">LIVE</div>
+                    </div>
+                    <h1 class="ten-ten-logo">10<span class="dot">.</span>10</h1>
+                    <p class="mega-sale-text">Mega Sale</p>
+                </div>
+                <div class="modal-body">
+                    <div class="discount-banner">
+                        <span class="fire">🔥</span>
+                        <span>৯০% পর্যন্ত ছাড়</span>
+                        <span class="fire">🔥</span>
+                    </div>
+                    <h2>মিস করবেন না!</h2>
+                    <p class="subtitle">১০.১০ মেগা সেলের এক্সক্লুসিভ অফার, ফ্ল্যাশ ডিল এবং বিশেষ ছাড়ের নোটিফিকেশন পেতে চান?</p>
+                    <button id="unlockBtn" class="btn btn-primary">🎁 হ্যাঁ, অফার পেতে চাই!</button>
+                    <a id="declineBtn1" class="decline-link">না, ধন্যবাদ</a>
+                </div>
+            </div>
+            
+            <div id="benefits-step" class="step">
+                <div class="modal-header">
+                    <div class="logo-container">
+                        <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=80&h=80&fit=crop&crop=center" alt="Daraz Logo" />
+                    </div>
+                    <h1 class="ten-ten-logo">10<span class="dot">.</span>10</h1>
+                    <p class="mega-sale-text">Exclusive Benefits</p>
+                </div>
+                <div class="modal-body">
+                    <h2>আপনি পাবেন</h2>
+                    <p class="subtitle">ব্রাউজারের "Allow" বাটনে ক্লিক করে নিন বিশেষ সুবিধা:</p>
+                    <ul class="benefits-list">
+                        <li><span class="icon">⚡</span> তাৎক্ষণিক ফ্ল্যাশ সেল এলার্ট</li>
+                        <li><span class="icon">🎯</span> এক্সক্লুসিভ ডিসকাউন্ট ভাউচার</li>
+                        <li><span class="icon">💎</span> প্রিমিয়াম ব্র্যান্ড অফার আপডেট</li>
+                    </ul>
+                    <button id="allowBtn" class="btn btn-primary">🔔 Allow করুন</button>
+                    <a id="declineBtn2" class="decline-link">পরে করবো</a>
+                </div>
+            </div>
+            
+            <div id="success-step" class="step">
+                <div class="modal-header">
+                    <h1 class="ten-ten-logo">10<span class="dot">.</span>10</h1>
+                </div>
+                <div class="modal-body">
+                    <div class="success-animation">
+                        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+                            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                        </svg>
+                    </div>
+                    <h2>সফলভাবে সাবস্ক্রাইব হয়েছে! 🎉</h2>
+                    <p class="subtitle">ধন্যবাদ! এখন আপনি ১০.১০ মেগা সেলের সেরা অফারগুলো পাবেন...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module">
+        import { requestPermissionAndToken } from './script.js';
+
+        const overlay = document.getElementById('overlay');
+        if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+             overlay.style.display = 'none';
+        }
+
+        const unlockBtn = document.getElementById('unlockBtn');
+        const allowBtn = document.getElementById('allowBtn');
+        const declineBtn1 = document.getElementById('declineBtn1');
+        const declineBtn2 = document.getElementById('declineBtn2');
+        const initialStep = document.getElementById('initial-step');
+        const benefitsStep = document.getElementById('benefits-step');
+        const successStep = document.getElementById('success-step');
+        
+        unlockBtn.addEventListener('click', () => {
+            initialStep.classList.remove('active');
+            benefitsStep.classList.add('active');
+        });
+
+        allowBtn.addEventListener('click', async () => {
+            allowBtn.disabled = true;
+            allowBtn.innerText = 'অনুমতির জন্য অপেক্ষা করছি...';
+
+            const success = await requestPermissionAndToken();
+
+            if (success) {
+                benefitsStep.classList.remove('active');
+                successStep.classList.add('active');
+                setTimeout(() => {
+                    window.location.href = 'https://www.daraz.com.bd/';
+                }, 3000);
+            } else {
+                alert('সাবস্ক্রিপশন ব্যর্থ হয়েছে। দয়া করে আবার চেষ্টা করুন বা ব্রাউজার সেটিংস চেক করুন।');
+                closeOverlay();
+            }
+        });
+        
+        function closeOverlay() {
+            overlay.style.display = 'none';
+        }
+        declineBtn1.addEventListener('click', closeOverlay);
+        declineBtn2.addEventListener('click', closeOverlay);
+    </script>
+</body>
+</html>
