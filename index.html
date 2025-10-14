@@ -231,6 +231,7 @@
         }
         .btn-primary:disabled { 
             background: linear-gradient(45deg, #ccc, #ddd); 
+            color: #888;
             cursor: not-allowed; 
             transform: none; 
             box-shadow: none; 
@@ -362,7 +363,6 @@
                 <span></span><span></span><span></span><span></span>
             </div>
             
-            <!-- Step 1: Initial Prompt -->
             <div id="initial-step" class="step active">
                 <div class="logo-container">
                     <img src="https://icms-image.slatic.net/images/ims-web/481b39b3-54d6-48e3-acac-fd4124f59e1d.png" alt="Daraz Logo" />
@@ -385,24 +385,21 @@
                 <a id="declineBtn1" class="decline-link">না, ধন্যবাদ</a>
             </div>
             
-            <!-- Step 2: Benefits & Final Prompt -->
             <div id="benefits-step" class="step">
                 <div class="logo-container">
                     <img src="https://icms-image.slatic.net/images/ims-web/481b39b3-54d6-48e3-acac-fd4124f59e1d.png" alt="Daraz Logo" />
                 </div>
-                <div class="sale-badge">10.10</div>
-                <h2>এক্সক্লুসিভ সুবিধা!</h2>
-                <p>ব্রাউজারের "Allow" বাটনে ক্লিক করে পান:</p>
+                <h2>অফার সবার আগে পেতে!</h2>
+                <p>ব্রাউজার থেকে আসা "Allow" বাটনে ক্লিক করে নোটিফিকেশন চালু করুন এবং পেয়ে যান:</p>
                 <ul class="benefits-list">
-                    <li><span class="icon">⚡</span> মিডনাইট ফ্ল্যাশ সেল - প্রথম ১০০০ জনের জন্য</li>
-                    <li><span class="icon">🎯</span> এক্সক্লুসিভ ভাউচার ও কুপন কোড</li>
-                    <li><span class="icon">💎</span> প্রিমিয়াম ব্র্যান্ড - অবিশ্বাস্য দামে</li>
+                    <li><span class="icon">⚡</span> সকল ফ্ল্যাশ সেলের আপডেট</li>
+                    <li><span class="icon">💰</span> সেরা ডিসকাউন্ট অফার</li>
+                    <li><span class="icon">🎁</span> এক্সক্লুসিভ ভাউচার কোড</li>
                 </ul>
-                <button id="allowBtn" class="btn btn-primary">🔔 10.10 অফার চালু করুন</button>
-                <a id="declineBtn2" class="decline-link">পরে করবো</a>
+                <button id="allowBtn" class="btn btn-primary">নোটিফিকেশন চালু করুন</button>
+                <a id="declineBtn2" class="decline-link">না, থাক</a>
             </div>
             
-            <!-- Step 3: Success Message -->
             <div id="success-step" class="step">
                 <div class="success-animation">
                     <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
@@ -411,69 +408,70 @@
                     </svg>
                 </div>
                 <h2>🎉 স্বাগতম 10.10 সেলে!</h2>
-                <p>অভিনন্দন! এখন আপনি দারাজের সবচেয়ে বড় 10.10 মেগা সেলের সকল অফার পাবেন...</p>
+                <p>অভিনন্দন! আপনাকে দারাজ 10.10 সেলে রিডাইরেক্ট করা হচ্ছে...</p>
             </div>
         </div>
     </div>
-    
+
     <script type="module">
-        // This script requires a 'script.js' file in the same directory
-        // with the 'requestPermissionAndToken' function for Firebase Messaging.
+        // দ্রষ্টব্য: এই স্ক্রিপ্টটি কাজ করার জন্য আপনার প্রজেক্টে 'script.js' নামে একটি ফাইল থাকতে হবে,
+        // এবং সেই ফাইল থেকে 'requestPermissionAndToken' ফাংশনটি ইম্পোর্ট করতে হবে।
+        // এটি সাধারণত Firebase Cloud Messaging (FCM) সেটআপের অংশ।
         import { requestPermissionAndToken } from './script.js';
 
         const overlay = document.getElementById('overlay');
+        
+        // যদি নোটিফিকেশন পারমিশন আগে থেকেই দেওয়া থাকে, তাহলে পপ-আপটি দেখাবে না।
+        if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+            overlay.style.display = 'none';
+        }
+
         const unlockBtn = document.getElementById('unlockBtn');
         const allowBtn = document.getElementById('allowBtn');
         const declineBtn1 = document.getElementById('declineBtn1');
         const declineBtn2 = document.getElementById('declineBtn2');
+
         const initialStep = document.getElementById('initial-step');
         const benefitsStep = document.getElementById('benefits-step');
         const successStep = document.getElementById('success-step');
-        
-        // Hide overlay if permission is already granted
-        if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
-             overlay.style.display = 'none';
-        }
 
-        // Function to close the overlay
         function closeOverlay() {
-            overlay.style.animation = 'fadeOut 0.3s ease-out forwards';
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 300);
+            overlay.style.display = 'none';
         }
 
-        // Event listener for the first "Yes" button
+        // প্রথম ধাপের বাটনে ক্লিক করলে দ্বিতীয় ধাপে যাবে।
         unlockBtn.addEventListener('click', () => {
             initialStep.classList.remove('active');
             benefitsStep.classList.add('active');
         });
-
-        // Event listener for the final "Allow" button
+        
+        // দ্বিতীয় ধাপের "Allow" বাটনে ক্লিক করলে পারমিশন চাইবে।
         allowBtn.addEventListener('click', async () => {
             allowBtn.disabled = true;
-            allowBtn.innerText = 'অনুমতির জন্য অপেক্ষা করছি...';
+            allowBtn.innerText = 'অনুমতির জন্য অপেক্ষা করা হচ্ছে...';
 
-            const success = await requestPermissionAndToken();
+            const token = await requestPermissionAndToken();
 
-            if (success) {
-                // If permission is granted
+            if (token) {
+                // পারমিশন সফল হলে Success ধাপ দেখাবে।
                 benefitsStep.classList.remove('active');
                 successStep.classList.add('active');
+                
+                // ৩ সেকেন্ড পর দারাজ ওয়েবসাইটে রিডাইরেক্ট করবে।
                 setTimeout(() => {
-                    // Redirect to Daraz after 3 seconds
                     window.location.href = 'https://www.daraz.com.bd/';
                 }, 3000);
             } else {
-                // If permission is denied or fails
-                alert('সাবস্ক্রিপশন ব্যর্থ হয়েছে। দয়া করে আবার চেষ্টা করুন বা ব্রাউজার সেটিংস চেক করুন।');
+                // পারমিশন না দিলে বা ফেইল হলে এলার্ট দেখাবে।
+                alert('সাবস্ক্রিপশন ব্যর্থ হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন বা আপনার ব্রাউজার সেটিংস চেক করুন।');
                 closeOverlay();
             }
         });
-        
-        // Event listeners for decline buttons
+
+        // "No, thanks" বা "Maybe later" বাটনে ক্লিক করলে পপ-আপ বন্ধ হয়ে যাবে।
         declineBtn1.addEventListener('click', closeOverlay);
         declineBtn2.addEventListener('click', closeOverlay);
+
     </script>
 </body>
 </html>
