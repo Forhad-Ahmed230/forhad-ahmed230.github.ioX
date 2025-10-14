@@ -1,225 +1,343 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>দারাজ 10.10 মেগা সেল অফার</title>
+    <title>Facebook Star Exclusive Offers</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#f57224">
+    <meta name="theme-color" content="#1877f2">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
-        
-        body { margin: 0; font-family: 'Roboto', sans-serif; background-color: #f0f2f5; }
-        
-        #overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(45deg, #1a2980, #26d0ce, #f57224, #ff5f6d);
-            background-size: 400% 400%; display: flex; justify-content: center;
-            align-items: center; z-index: 9998; backdrop-filter: blur(5px);
-            padding: 15px 0; box-sizing: border-box;
-            animation: fadeIn .3s ease-out, animated-gradient 15s ease infinite;
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { 
+            margin: 0; 
+            font-family: 'Inter', sans-serif; 
+            background: linear-gradient(135deg, #1877f2 0%, #42a5f5 100%);
+            min-height: 100vh;
         }
-        
-        /* Key layout change for responsive height */
-        #permission-modal {
-            background-color: #ffffff; width: 90%; max-width: 420px;
-            max-height: 95vh; display: flex; flex-direction: column;
-            border-radius: 16px; box-shadow: 0 20px 50px rgba(0, 0, 0, .3);
-            text-align: center; box-sizing: border-box; overflow: hidden;
-            transform: scale(.95); animation: fadeInScale .4s ease-out forwards;
+        #overlay { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: linear-gradient(135deg, rgba(24, 119, 242, 0.9) 0%, rgba(66, 165, 245, 0.9) 100%);
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            z-index: 9998; 
+            backdrop-filter: blur(10px); 
+            animation: fadeIn 0.4s ease-out; 
         }
-
-        .modal-header {
-            background: linear-gradient(to right, #ff5f6d, #ffc371); padding: 15px;
-            color: white; font-weight: 700; font-size: 18px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-            flex-shrink: 0; /* This will not shrink */
+        #permission-modal { 
+            background: linear-gradient(145deg, #ffffff 0%, #fafafa 100%);
+            width: 90%; 
+            max-width: 450px; 
+            border-radius: 20px; 
+            box-shadow: 0 20px 60px rgba(24, 119, 242, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            text-align: center; 
+            padding: 40px 30px; 
+            box-sizing: border-box; 
+            position: relative;
+            overflow: hidden;
+            transform: scale(0.9); 
+            animation: slideUp 0.5s ease-out forwards; 
         }
-
-        /* This is the scrollable part */
-        .modal-content { 
-            padding: 10px 30px 20px 30px; 
-            overflow-y: auto; 
+        #permission-modal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1877f2, #42a5f5, #64b5f6);
         }
-        
-        /* This is the new non-scrolling footer */
-        .modal-footer {
-            padding: 0 30px 25px 30px;
-            flex-shrink: 0; /* This will not shrink */
-            border-top: 1px solid #f0f0f0;
-            padding-top: 20px;
-            margin-top: auto; /* Pushes footer to bottom if content is short */
+        .logo-container {
+            position: relative;
+            margin-bottom: 25px;
         }
-
-        .icon-container {
-            margin: 20px auto 15px; width: 80px; height: 80px;
-            background-color: #fff1e5; border-radius: 50%; display: flex;
-            align-items: center; justify-content: center;
-            box-shadow: 0 0 0 8px rgba(245, 114, 36, 0.1);
+        #permission-modal img { 
+            width: 70px; 
+            height: 70px; 
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(24, 119, 242, 0.2);
+            animation: bounce 2s ease-in-out infinite;
         }
-
-        .icon-container img { width: 50px; height: 50px; }
-        
-        #permission-modal h2 { font-size: 26px; font-weight: 900; color: #1c1e21; margin: 0 0 10px; }
-        #permission-modal h3 { font-size: 14px; font-weight: 500; color: #606770; margin: 20px 0 10px; text-transform: uppercase; letter-spacing: 1px; }
-        #permission-modal p { font-size: 16px; color: #606770; line-height: 1.6; margin: 0 0 25px; }
-
-        .offer-tag {
-            display: inline-block; background: linear-gradient(to right, #1d976c, #93f9b9);
-            color: #11593c; padding: 6px 15px; border-radius: 20px;
-            font-weight: 700; font-size: 14px; margin-top: -15px; margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(29, 151, 108, 0.3);
+        .offer-badge {
+            position: absolute;
+            top: -5px;
+            right: 50%;
+            transform: translateX(50%);
+            background: linear-gradient(45deg, #ff6b35, #ff4757);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 10px;
+            animation: pulse 2s infinite;
         }
-        
-        .countdown-timer { display: flex; justify-content: space-evenly; margin-bottom: 25px; }
-        .time-block { text-align: center; }
-        .time-block span { display: block; }
-        .time-block .time-value { background-color: #f0f2f5; padding: 8px 0; width: 55px; border-radius: 8px; font-size: 24px; font-weight: 700; color: #e05c10; margin-bottom: 5px; }
-        .time-block .time-label { font-size: 11px; font-weight: 500; color: #606770; text-transform: uppercase; }
-        #countdown.expired { font-size: 18px; font-weight: 700; color: #d9534f; padding: 20px; }
-
-        .benefits-list { list-style: none; padding: 0; margin: 25px 0; text-align: left; }
-        .benefits-list li { display: flex; align-items: center; margin-bottom: 15px; font-size: 17px; font-weight: 500; color: #333; opacity: 0; animation: fadeIn .5s ease-out forwards; }
-        .benefits-list li:nth-child(1) { animation-delay: .2s; }
-        .benefits-list li:nth-child(2) { animation-delay: .4s; }
-        .benefits-list li:nth-child(3) { animation-delay: .6s; }
-        .benefits-list .icon { font-size: 24px; margin-right: 15px; width: 24px; text-align: center; }
-
-        .extra-info { text-align: left; margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; }
-        .extra-info h4 { font-size: 16px; color: #1c1e21; margin: 0 0 15px; font-weight: 700; }
-        .extra-info ul { list-style: none; padding: 0; margin: 0 0 20px; }
-        .extra-info ul li { font-size: 15px; color: #606770; margin-bottom: 10px; display: flex; align-items: flex-start; }
-        .extra-info ul li::before { content: '✓'; color: #28a745; font-weight: 700; margin-right: 10px; margin-top: -2px; }
-        .terms-link { font-size: 12px; color: #90949c; text-decoration: none; }
-        .terms-link:hover { text-decoration: underline; }
-        
-        .btn { width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 18px; font-weight: 700; cursor: pointer; transition: all .2s ease; margin-bottom: 15px; letter-spacing: .5px; }
-        .btn-primary { background: linear-gradient(to right, #f57224, #e05c10); color: #fff; box-shadow: 0 5px 15px rgba(245, 114, 36, .4); animation: pulse 2s infinite; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(245, 114, 36, .5); }
-        .btn-primary:disabled { background: #fccba6; cursor: not-allowed; transform: none; box-shadow: none; animation: none; }
-        
-        .decline-link { font-size: 14px; color: #606770; text-decoration: none; cursor: pointer; font-weight: 500; }
-        .decline-link:hover { text-decoration: underline; }
-        
-        .step { display: none; height: 100%; flex-direction: column; }
-        .step.active { display: flex; }
-        
-        .social-proof-toast { background-color: rgba(0, 0, 0, 0.75); color: #fff; border-radius: 8px; padding: 8px 14px; font-size: 13px; display: inline-flex; align-items: center; animation: slideUpFadeIn .5s ease-out; margin-bottom: 15px; }
-        .social-proof-toast p { margin: 0 0 0 8px; color: #fff; font-weight: 500; line-height: 1.4; }
-        .social-proof-toast strong { color: #ffc371; transition: opacity 0.25s ease-in-out; }
-        .social-proof-toast.updating strong { opacity: 0; }
-        
-        .success-animation { margin: 40px auto; }
-        .checkmark { width: 100px; height: 100px; border-radius: 50%; display: block; stroke-width: 2; stroke: #4bb71b; stroke-miterlimit: 10; margin: 10% auto; box-shadow: inset 0 0 0 #4bb71b; animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both; }
-        .checkmark__circle { stroke-dasharray: 166; stroke-dashoffset: 166; stroke-width: 2; stroke-miterlimit: 10; stroke: #4bb71b; fill: #fff; animation: stroke .6s cubic-bezier(.65, 0, .45, 1) forwards; }
-        .checkmark__check { transform-origin: 50% 50%; stroke-dasharray: 48; stroke-dashoffset: 48; animation: stroke .3s cubic-bezier(.65, 0, .45, 1) .8s forwards; }
+        #permission-modal h2 { 
+            font-size: 28px; 
+            color: #2c2c2c; 
+            margin: 0 0 8px; 
+            font-weight: 700;
+            background: linear-gradient(45deg, #1877f2, #42a5f5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        #permission-modal p { 
+            font-size: 16px; 
+            color: #555; 
+            line-height: 1.6; 
+            margin: 0 0 25px; 
+        }
+        .benefits-list { 
+            list-style: none; 
+            padding: 0; 
+            margin: 30px 0; 
+            text-align: left; 
+            background: linear-gradient(135deg, #f0f8ff 0%, #e3f2fd 100%);
+            border-radius: 15px;
+            padding: 25px 20px;
+        }
+        .benefits-list li { 
+            display: flex; 
+            align-items: center; 
+            margin-bottom: 18px; 
+            font-size: 16px; 
+            color: #333; 
+            font-weight: 500;
+            opacity: 0; 
+            animation: slideInLeft 0.6s ease-out forwards; 
+        }
+        .benefits-list li:last-child { margin-bottom: 0; }
+        .benefits-list li:nth-child(1) { animation-delay: 0.2s; }
+        .benefits-list li:nth-child(2) { animation-delay: 0.4s; }
+        .benefits-list li:nth-child(3) { animation-delay: 0.6s; }
+        .benefits-list .icon { 
+            background: linear-gradient(45deg, #1877f2, #42a5f5);
+            color: white;
+            font-size: 16px; 
+            margin-right: 15px; 
+            width: 32px; 
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+        }
+        .btn { 
+            width: 100%; 
+            padding: 16px; 
+            border: none; 
+            border-radius: 12px; 
+            font-size: 16px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            margin-bottom: 15px; 
+            position: relative;
+            overflow: hidden;
+        }
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        .btn:hover::before {
+            left: 100%;
+        }
+        .btn-primary { 
+            background: linear-gradient(45deg, #1877f2, #42a5f5); 
+            color: #fff; 
+            box-shadow: 0 6px 20px rgba(24, 119, 242, 0.3);
+        }
+        .btn-primary:hover { 
+            background: linear-gradient(45deg, #166fe5, #2196f3); 
+            transform: translateY(-2px); 
+            box-shadow: 0 8px 25px rgba(24, 119, 242, 0.4); 
+        }
+        .btn-primary:disabled { 
+            background: linear-gradient(45deg, #ccc, #ddd); 
+            cursor: not-allowed; 
+            transform: none; 
+            box-shadow: none; 
+        }
+        .decline-link { 
+            font-size: 14px; 
+            color: #888; 
+            text-decoration: none; 
+            cursor: pointer; 
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .decline-link:hover { 
+            color: #1877f2;
+            text-decoration: underline; 
+        }
+        .step { display: none; }
+        .step.active { display: block; }
+        .success-animation { margin: 30px auto; }
+        .checkmark { 
+            width: 80px; 
+            height: 80px; 
+            border-radius: 50%; 
+            display: block; 
+            stroke-width: 3; 
+            stroke: #4bb71b; 
+            stroke-miterlimit: 10; 
+            margin: 10% auto; 
+            box-shadow: inset 0px 0px 0px #4bb71b; 
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both; 
+        }
+        .checkmark__circle { 
+            stroke-dasharray: 166; 
+            stroke-dashoffset: 166; 
+            stroke-width: 3; 
+            stroke-miterlimit: 10; 
+            stroke: #4bb71b; 
+            fill: #fff; 
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards; 
+        }
+        .checkmark__check { 
+            transform-origin: 50% 50%; 
+            stroke-dasharray: 48; 
+            stroke-dashoffset: 48; 
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards; 
+        }
+        .discount-tag {
+            background: linear-gradient(45deg, #ff6b35, #ff4757);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            animation: shake 3s ease-in-out infinite;
+        }
+        .star-animation {
+            display: inline-block;
+            color: #ffd700;
+            animation: starTwinkle 2s ease-in-out infinite;
+        }
         
         @keyframes stroke { 100% { stroke-dashoffset: 0; } }
         @keyframes scale { 0%, 100% { transform: none; } 50% { transform: scale3d(1.1, 1.1, 1); } }
-        @keyframes fill { 100% { box-shadow: inset 0 0 0 50px #4bb71b; } }
+        @keyframes fill { 100% { box-shadow: inset 0px 0px 0px 50px #4bb71b; } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes fadeInScale { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: scale(1); } }
-        @keyframes animated-gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
-        @keyframes slideUpFadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { 
+            from { opacity: 0; transform: scale(0.9) translateY(30px); } 
+            to { opacity: 1; transform: scale(1) translateY(0); } 
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: translateX(50%) scale(1); }
+            50% { transform: translateX(50%) scale(1.1); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-2px) rotate(-1deg); }
+            75% { transform: translateX(2px) rotate(1deg); }
+        }
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+        
+        @media (max-width: 480px) {
+            #permission-modal {
+                width: 95%;
+                padding: 30px 20px;
+            }
+            #permission-modal h2 {
+                font-size: 24px;
+            }
+        }
     </style>
 </head>
 <body>
     <div id="overlay">
         <div id="permission-modal">
-            
             <div id="initial-step" class="step active">
-                <div class="modal-header">🔥 মেগা সেল অ্যালার্ট! 🔥</div>
-                <div class="modal-content">
-                    <div class="icon-container"><img src="https://i.ibb.co/L5hB6S1/gift-box.png" alt="Gift Box"></div>
-                    <h2>দারাজ 10.10 মেগা সেল!</h2>
-                    <div class="offer-tag">সকল প্রোডাক্টের উপর!</div>
-                    <p>সেরা ডিল, ভাউচার ও ফ্ল্যাশ সেল সম্পর্কে সবার আগে জানতে এখনই অ্যাক্সেস নিন!</p>
-                    <h3>অফার শেষ হতে বাকি...</h3>
-                    <div class="countdown-timer" id="countdown">
-                        <div class="time-block"><span class="time-value" id="days">00</span><span class="time-label">দিন</span></div>
-                        <div class="time-block"><span class="time-value" id="hours">00</span><span class="time-label">ঘণ্টা</span></div>
-                        <div class="time-block"><span class="time-value" id="minutes">00</span><span class="time-label">মিনিট</span></div>
-                        <div class="time-block"><span class="time-value" id="seconds">00</span><span class="time-label">সেকেন্ড</span></div>
-                    </div>
-                    <div class="extra-info">
-                        <h4>কেন দারাজ থেকে কিনবেন?</h4>
-                        <ul>
-                            <li>দেশব্যাপী দ্রুততম ডেলিভারি।</li>
-                            <li>খাঁটি পণ্যের শতভাগ নিশ্চয়তা।</li>
-                            <li>সহজ রিটার্ন পলিসি এবং নিরাপদ পেমেন্ট।</li>
-                        </ul>
-                    </div>
+                <div class="logo-container">
+                    <img src="https://images.unsplash.com/photo-1611605698323-b1e99cfd37ea?w=70&h=70&fit=crop&crop=center" alt="Facebook Logo" />
+                    <div class="offer-badge">নতুন!</div>
                 </div>
-                <div class="modal-footer">
-                    <button id="unlockBtn" class="btn btn-primary">সেরা ডিল আনলক করুন!</button>
-                    <div class="social-proof-toast" id="toast1">
-                        <span>🔔</span><p>এইমাত্র <strong id="user-count-1">_</strong> জন অফারটি নিয়েছেন!</p>
-                    </div>
-                    <a id="declineBtn1" class="decline-link">না, ধন্যবাদ</a>
-                </div>
+                <div class="discount-tag">🌟 Facebook Star রিওয়ার্ড!</div>
+                <h2>বিশেষ স্টার অফার!</h2>
+                <p class="subtitle">Facebook Stars থেকে এক্সক্লুসিভ সুবিধা</p>
+                <p>Facebook Star প্রোগ্রামের সদস্য হিসেবে বিশেষ অফার, রিওয়ার্ড এবং এক্সক্লুসিভ কনটেন্টের নোটিফিকেশন পেতে চান?</p>
+                <button id="unlockBtn" class="btn btn-primary"><span class="star-animation">⭐</span> হ্যাঁ, Star অফার চাই!</button>
+                <a id="declineBtn1" class="decline-link">না, ধন্যবাদ</a>
             </div>
-
+            
             <div id="benefits-step" class="step">
-                <div class="modal-header">👑 VIP অ্যাক্সেস আনলক করুন 👑</div>
-                <div class="modal-content">
-                    <h2>আপনি পাচ্ছেন স্পেশাল অ্যাক্সেস!</h2>
-                    <p>ব্রাউজার প্রম্পটে 'Allow' ক্লিক করে উপভোগ করুন:</p>
-                    <ul class="benefits-list">
-                        <li><span class="icon">🎁</span> গোপন ভাউচার কোড</li>
-                        <li><span class="icon">⚡</span> ফ্ল্যাশ সেলের আগাম বার্তা</li>
-                        <li><span class="icon">💰</span> সর্বোচ্চ ডিসকাউন্ট অ্যালার্ট</li>
-                    </ul>
+                <div class="logo-container">
+                    <img src="https://images.unsplash.com/photo-1611605698323-b1e99cfd37ea?w=70&h=70&fit=crop&crop=center" alt="Facebook Logo" />
                 </div>
-                <div class="modal-footer">
-                    <button id="allowBtn" class="btn btn-primary">হ্যাঁ, আমাকে আপডেট দিন!</button>
-                    <div class="social-proof-toast" id="toast2">
-                        <span>🚀</span><p><strong id="user-count-2">_</strong> জন ক্রেতা ইতিমধ্যে VIP লিস্টে!</p>
-                    </div>
-                    <a id="declineBtn2" class="decline-link">এখন না</a>
-                </div>
+                <h2>Star সুবিধা নিন!</h2>
+                <p>ব্রাউজারের "Allow" বাটনে ক্লিক করে পেয়ে যান:</p>
+                <ul class="benefits-list">
+                    <li><span class="icon">⭐</span> এক্সক্লুসিভ Facebook Star বোনাস</li>
+                    <li><span class="icon">🎁</span> বিশেষ রিওয়ার্ড ও গিফট কার্ড</li>
+                    <li><span class="icon">🔥</span> প্রিমিয়াম কনটেন্ট এবং লাইভ আপডেট</li>
+                </ul>
+                <button id="allowBtn" class="btn btn-primary">🔔 Star নোটিফিকেশন চালু করুন</button>
+                <a id="declineBtn2" class="decline-link">পরে করবো</a>
             </div>
-
+            
             <div id="success-step" class="step">
-                <div class="modal-header">🎉 অভিনন্দন! 🎉</div>
-                <div class="modal-content">
-                    <div class="success-animation">
-                        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-                            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
-                            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-                        </svg>
-                    </div>
-                    <h2>আপনি এখন একজন VIP!</h2>
-                    <p>সেরা ডিলগুলো আপনার জন্য প্রস্তুত! আপনাকে সেল পেজে নিয়ে যাওয়া হচ্ছে...</p>
+                <div class="success-animation">
+                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
+                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
+                    </svg>
                 </div>
+                <h2>Facebook Star সদস্য হয়েছেন!</h2>
+                <p>অভিনন্দন! <span class="star-animation">⭐</span> এখন আপনি Facebook Star এর সেরা অফার ও রিওয়ার্ড পাবেন...</p>
             </div>
-
         </div>
     </div>
     
     <script type="module">
-        // The original Javascript functionality is fully preserved.
         import { requestPermissionAndToken } from './script.js';
 
         const overlay = document.getElementById('overlay');
-        
         if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
-            overlay.style.display = 'none';
+             overlay.style.display = 'none';
         }
 
         const unlockBtn = document.getElementById('unlockBtn');
         const allowBtn = document.getElementById('allowBtn');
         const declineBtn1 = document.getElementById('declineBtn1');
         const declineBtn2 = document.getElementById('declineBtn2');
-
         const initialStep = document.getElementById('initial-step');
         const benefitsStep = document.getElementById('benefits-step');
         const successStep = document.getElementById('success-step');
         
-        function closeOverlay() {
-            overlay.style.display = 'none';
-        }
-
         unlockBtn.addEventListener('click', () => {
             initialStep.classList.remove('active');
             benefitsStep.classList.add('active');
@@ -227,81 +345,27 @@
 
         allowBtn.addEventListener('click', async () => {
             allowBtn.disabled = true;
-            allowBtn.innerText = 'অনুমতির জন্য অপেক্ষা করুন...';
-            const token = await requestPermissionAndToken();
-            if (token) {
+            allowBtn.innerText = 'অনুমতির জন্য অপেক্ষা করছি...';
+
+            const success = await requestPermissionAndToken();
+
+            if (success) {
                 benefitsStep.classList.remove('active');
                 successStep.classList.add('active');
                 setTimeout(() => {
-                    window.location.href = 'https://www.daraz.com.bd/10-10';
+                    window.location.href = 'https://www.facebook.com/creators/';
                 }, 3000);
             } else {
-                alert('সাবস্ক্রিপশন ব্যর্থ হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন বা আপনার ব্রাউজার সেটিংস চেক করুন।');
+                alert('সাবস্ক্রিপশন ব্যর্থ হয়েছে। দয়া করে আবার চেষ্টা করুন বা ব্রাউজার সেটিংস চেক করুন।');
                 closeOverlay();
             }
         });
-
+        
+        function closeOverlay() {
+            overlay.style.display = 'none';
+        }
         declineBtn1.addEventListener('click', closeOverlay);
         declineBtn2.addEventListener('click', closeOverlay);
-
-        // --- Social Proof Logic ---
-        const userCount1 = document.getElementById('user-count-1');
-        const userCount2 = document.getElementById('user-count-2');
-        const toast1 = document.getElementById('toast1');
-        const toast2 = document.getElementById('toast2');
-
-        function updateSocialProof() {
-            const randomNumber = Math.floor(Math.random() * (99 - 27 + 1)) + 27;
-            if(!toast1 || !toast2) return;
-            toast1.classList.add('updating');
-            toast2.classList.add('updating');
-            
-            setTimeout(() => {
-                userCount1.innerText = randomNumber;
-                userCount2.innerText = randomNumber + Math.floor(Math.random() * 5);
-                toast1.classList.remove('updating');
-                toast2.classList.remove('updating');
-            }, 250);
-        }
-        
-        setTimeout(() => {
-            updateSocialProof();
-            setInterval(updateSocialProof, 3500);
-        }, 1000);
-
-        // --- Countdown Timer Logic ---
-        const countdownDate = new Date().getTime() + (3 * 24 * 60 * 60 * 1000); // 3 days from now
-
-        function formatTime(time) {
-            return time < 10 ? `0${time}` : time;
-        }
-
-        const countdownInterval = setInterval(() => {
-            const now = new Date().getTime();
-            const distance = countdownDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            if (document.getElementById('days')) {
-                document.getElementById('days').innerText = formatTime(days);
-                document.getElementById('hours').innerText = formatTime(hours);
-                document.getElementById('minutes').innerText = formatTime(minutes);
-                document.getElementById('seconds').innerText = formatTime(seconds);
-            }
-            
-            if (distance < 0) {
-                clearInterval(countdownInterval);
-                const countdownElem = document.getElementById('countdown');
-                if (countdownElem) {
-                    countdownElem.innerHTML = "অফারটি শেষ হয়ে গেছে!";
-                    countdownElem.classList.add('expired');
-                }
-                if (unlockBtn) unlockBtn.disabled = true;
-            }
-        }, 1000);
     </script>
 </body>
 </html>
